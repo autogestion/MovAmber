@@ -1,7 +1,7 @@
-// Copyright 2022 OmniBTC Authors. Licensed under Apache-2.0 License.
+
 module movamber::controller {
     use std::signer;
-    use moveamber::implements::controller;
+    use movamber::implements::controller;
 
     struct Emergency has key {}
 

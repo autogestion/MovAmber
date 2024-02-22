@@ -1,4 +1,4 @@
-// Copyright 2022 OmniBTC Authors. Licensed under Apache-2.0 License.
+
 module movamber::math {
 
     const ERR_DIVIDE_BY_ZERO: u64 = 500;

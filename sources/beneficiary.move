@@ -1,4 +1,4 @@
-// Copyright 2022 OmniBTC Authors. Licensed under Apache-2.0 License.
+
 module movamber::beneficiary {
     use std::signer;
     use movamber::implements::{beneficiary, withdraw_fee};

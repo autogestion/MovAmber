@@ -1,5 +1,5 @@
-// Copyright 2022 OmniBTC Authors. Licensed under Apache-2.0 License.
-module movabmer::interface {
+
+module movamber::interface {
     use std::signer;
     use std::vector;
 
@@ -7,8 +7,8 @@ module movabmer::interface {
     use aptos_std::comparator::{Self, Result};
     use aptos_std::type_info;
 
-    use movabmer::controller;
-    use movabmer::implements;
+    use movamber::controller;
+    use movamber::implements::{Self, LP};
 
     const ERR_NOT_COIN: u64 = 100;
     const ERR_THE_SAME_COIN: u64 = 101;
@@ -19,7 +19,7 @@ module movabmer::interface {
     const ERR_COIN_OUT_NUM_LESS_THAN_EXPECTED_MINIMUM: u64 = 106;
 
 
-    struct LP<phantom X, phantom Y> {}
+    
 
     /// Compare two coins, 'X' and 'Y'.
     fun compare<X, Y>(): Result {

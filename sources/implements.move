@@ -1,4 +1,4 @@
-// Copyright 2022 OmniBTC Authors. Licensed under Apache-2.0 License.
+
 module movamber::implements {
     use std::option;
     use std::signer;
@@ -7,7 +7,6 @@ module movamber::implements {
     use aptos_framework::account::{Self, SignerCapability};
     use aptos_framework::coin::{Self, Coin};
     use aptos_framework::timestamp;
-    use lp::lp_coin::LP;
 
     use movamber::event;
     use movamber::init;
@@ -43,6 +42,8 @@ module movamber::implements {
 
     /// Minimal liquidity.
     const MINIMAL_LIQUIDITY: u64 = 1000;
+
+    struct LP<phantom X, phantom Y> {}
 
     /// Generate LP coin name and symbol for pair `X`/`Y`.
     /// ```
@@ -99,30 +100,30 @@ module movamber::implements {
     }
 
     fun pool_account(): signer acquires Config {
-        assert!(exists<Config>(@swap), ERR_SWAP_NOT_INITIALIZE);
+        assert!(exists<Config>(@movamber), ERR_SWAP_NOT_INITIALIZE);
 
-        let config = borrow_global<Config>(@swap);
+        let config = borrow_global<Config>(@movamber);
         account::create_signer_with_capability(&config.pool_cap)
     }
 
     fun pool_address(): address acquires Config {
-        assert!(exists<Config>(@swap), ERR_SWAP_NOT_INITIALIZE);
+        assert!(exists<Config>(@movamber), ERR_SWAP_NOT_INITIALIZE);
 
-        let config = borrow_global<Config>(@swap);
+        let config = borrow_global<Config>(@movamber);
         account::get_signer_capability_address(&config.pool_cap)
     }
 
     fun fee_account(): signer acquires Config {
-        assert!(exists<Config>(@swap), ERR_SWAP_NOT_INITIALIZE);
+        assert!(exists<Config>(@movamber), ERR_SWAP_NOT_INITIALIZE);
 
-        let config = borrow_global<Config>(@swap);
+        let config = borrow_global<Config>(@movamber);
         account::create_signer_with_capability(&config.fee_cap)
     }
 
     fun fee_address(): address acquires Config {
-        assert!(exists<Config>(@swap), ERR_SWAP_NOT_INITIALIZE);
+        assert!(exists<Config>(@movamber), ERR_SWAP_NOT_INITIALIZE);
 
-        let config = borrow_global<Config>(@swap);
+        let config = borrow_global<Config>(@movamber);
         account::get_signer_capability_address(&config.fee_cap)
     }
 
@@ -137,15 +138,15 @@ module movamber::implements {
     }
 
     public(friend) fun beneficiary(): address acquires Config {
-        assert!(exists<Config>(@swap), ERR_SWAP_NOT_INITIALIZE);
+        assert!(exists<Config>(@movamber), ERR_SWAP_NOT_INITIALIZE);
 
-        borrow_global<Config>(@swap).beneficiary
+        borrow_global<Config>(@movamber).beneficiary
     }
 
     public(friend) fun controller(): address acquires Config {
-        assert!(exists<Config>(@swap), ERR_SWAP_NOT_INITIALIZE);
+        assert!(exists<Config>(@movamber), ERR_SWAP_NOT_INITIALIZE);
 
-        borrow_global<Config>(@swap).controller
+        borrow_global<Config>(@movamber).controller
     }
 
     public(friend) fun initialize_swap(
@@ -153,7 +154,7 @@ module movamber::implements {
         controller: address,
         beneficiary: address,
     ) {
-        assert!(signer::address_of(swap_admin) == @swap, ERR_NOT_ENOUGH_PERMISSIONS_TO_INITIALIZE);
+        assert!(signer::address_of(swap_admin) == @movamber, ERR_NOT_ENOUGH_PERMISSIONS_TO_INITIALIZE);
 
         let pool_cap = init::retrieve_signer_cap(swap_admin);
         let pool_account = account::create_signer_with_capability(&pool_cap);
